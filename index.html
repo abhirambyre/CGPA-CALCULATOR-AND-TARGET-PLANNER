@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CGPA Calulator and Target Planner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Toast container -->
+  <div id="toastContainer" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- Theme toggle -->
+  <button class="theme-btn" id="themeBtn" aria-label="Toggle dark mode" title="Toggle dark mode">
+    <span class="theme-icon" id="themeIcon"></span>
+  </button>
+
+  <main class="page">
+    <div class="card" id="mainCard">
+
+      <!-- ── Header ── -->
+      <header class="card-header">
+        <h1 class="app-title">CGPA Calulator and Target Planner</h1>
+        <p class="app-sub">Enter your semester SGPAs to compute your cumulative grade point average.</p>
+      </header>
+
+      <!-- ── Semester selector ── -->
+      <div class="field-group">
+        <label class="field-label" for="semCount">Semesters completed</label>
+        <div class="select-wrap">
+          <select class="field-select" id="semCount">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4" selected>4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+          </select>
+          <svg class="select-arrow" viewBox="0 0 12 8" fill="none" aria-hidden="true">
+            <path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- ── SGPA inputs ── -->
+      <div class="sgpa-grid" id="sgpaGrid"></div>
+
+      <!-- ── Action row ── -->
+      <div class="action-row">
+        <button class="btn btn-primary" id="calcBtn" onclick="calculateCGPA()">Calculate CGPA</button>
+        <button class="btn btn-ghost"   id="resetBtn" onclick="resetAll()">Reset</button>
+      </div>
+
+      <!-- ── Result panel (hidden until calc) ── -->
+      <div class="result-panel" id="resultPanel" hidden>
+        <div class="result-main">
+          <div class="result-left">
+            <span class="result-label">Your CGPA</span>
+            <span class="result-value" id="resultValue">0.00</span>
+          </div>
+          <div class="result-right">
+            <span class="perf-badge" id="perfBadge"></span>
+            <span class="result-meta" id="resultMeta"></span>
+          </div>
+        </div>
+
+        <!-- Trend chart -->
+        <div class="chart-wrap">
+          <div class="chart-title-row">
+            <span class="chart-label">Semester trend</span>
+            <span class="chart-avg" id="chartAvg"></span>
+          </div>
+          <canvas id="trendChart" height="190"></canvas>
+        </div>
+
+        <!-- Mini stat bar -->
+        <div class="stat-row" id="statRow"></div>
+      </div>
+
+      <!-- ── Divider ── -->
+      <div class="section-divider">
+        <span>Target planner</span>
+      </div>
+
+      <!-- ── Target planner ── -->
+      <div class="field-group">
+        <label class="field-label" for="targetInput">Target CGPA</label>
+        <input
+          type="number"
+          class="field-input"
+          id="targetInput"
+          placeholder="e.g. 8.50"
+          step="0.01" min="0" max="10"
+          inputmode="decimal"
+          autocomplete="off"
+        />
+      </div>
+
+      <button class="btn btn-secondary" onclick="calcTarget()">Find required SGPA</button>
+
+      <!-- Target result -->
+      <div class="target-result" id="targetResult" hidden>
+        <div class="target-inner">
+          <div class="target-col">
+            <span class="target-label">Required avg. SGPA</span>
+            <span class="target-value" id="targetValue">—</span>
+          </div>
+          <div class="target-col">
+            <span class="target-label">Semesters remaining</span>
+            <span class="target-value" id="targetRemain">—</span>
+          </div>
+          <div class="target-col">
+            <span class="target-label">Status</span>
+            <span class="target-status" id="targetStatus">—</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /.card -->
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
